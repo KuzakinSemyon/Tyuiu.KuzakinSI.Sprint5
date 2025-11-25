@@ -31,12 +31,12 @@ namespace Tyuiu.KuzakinSI.Sprint5.Task7.V24
 
             // Создаем тестовый файл для демонстрации
             string path = Path.Combine(Path.GetTempPath(), "InPutDataFileTask7V24.txt");
-            string testData = "Привет мир! Это тестовый файл. 123,45 67,89 Hello world!";
-            File.WriteAllText(path, testData, Encoding.GetEncoding(1251));
+            string testData = "Привет, World! This моя Первая программа.";
+            File.WriteAllText(path, testData, Encoding.UTF8);
 
             Console.WriteLine($"Входной файл: {path}");
             Console.WriteLine("Исходные данные:");
-            Console.WriteLine(File.ReadAllText(path, Encoding.GetEncoding(1251)));
+            Console.WriteLine(File.ReadAllText(path, Encoding.UTF8));
 
             Console.WriteLine("***************************************************************************");
             Console.WriteLine("* РЕЗУЛЬТАТ:                                                              *");
@@ -46,7 +46,7 @@ namespace Tyuiu.KuzakinSI.Sprint5.Task7.V24
 
             Console.WriteLine($"Выходной файл: {outputPath}");
             Console.WriteLine("Результат обработки:");
-            Console.WriteLine(File.ReadAllText(outputPath, Encoding.GetEncoding(1251)));
+            Console.WriteLine(File.ReadAllText(outputPath, Encoding.UTF8));
 
             Console.ReadLine();
         }

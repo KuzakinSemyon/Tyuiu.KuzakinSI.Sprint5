@@ -15,8 +15,8 @@ namespace Tyuiu.KuzakinSI.Sprint5.Task7.V24.Test
 
             // Создаем временный файл с тестовыми данными
             string path = Path.Combine(Path.GetTempPath(), "InPutDataFileTask7V24.txt");
-            string testData = "Привет мир! Hello world! 123,45 тест слово";
-            File.WriteAllText(path, testData, Encoding.GetEncoding(1251));
+            string testData = "Привет, World! This моя Первая программа.";
+            File.WriteAllText(path, testData, Encoding.UTF8);
 
             string outputPath = ds.LoadDataAndSave(path);
 
@@ -24,8 +24,8 @@ namespace Tyuiu.KuzakinSI.Sprint5.Task7.V24.Test
             Assert.IsTrue(File.Exists(outputPath));
 
             // Проверяем содержимое выходного файла
-            string result = File.ReadAllText(outputPath, Encoding.GetEncoding(1251));
-            string expected = "слово слово! Hello world! 123,45 слово слово";
+            string result = File.ReadAllText(outputPath, Encoding.UTF8);
+            string expected = "слово, World! This слово слово слово.";
 
             Assert.AreEqual(expected, result);
 

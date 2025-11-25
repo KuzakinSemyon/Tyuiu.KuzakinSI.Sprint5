@@ -13,14 +13,15 @@ namespace Tyuiu.KuzakinSI.Sprint5.Task7.V24.Lib
             string outputPath = Path.Combine(Path.GetTempPath(), "OutPutDataFileTask7V24.txt");
 
             // Чтение данных из файла
-            string data = File.ReadAllText(path, Encoding.GetEncoding(1251)); // Кодировка для русских символов
+            string data = File.ReadAllText(path, Encoding.UTF8);
 
             // Замена русских слов на "слово"
-            string pattern = @"\b[А-Яа-яЁё]+\b";
+            // Паттерн для поиска последовательностей русских букв
+            string pattern = @"[А-Яа-яЁё]+";
             string result = Regex.Replace(data, pattern, "слово");
 
             // Сохранение результата в файл
-            File.WriteAllText(outputPath, result, Encoding.GetEncoding(1251));
+            File.WriteAllText(outputPath, result, Encoding.UTF8);
 
             return outputPath;
         }
