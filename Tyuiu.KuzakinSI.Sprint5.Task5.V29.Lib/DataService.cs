@@ -16,8 +16,12 @@ namespace Tyuiu.KuzakinSI.Sprint5.Task5.V29.Lib
             using (StreamReader reader = new StreamReader(path))
             {
                 string line;
+                int lineNumber = 0;
+
                 while ((line = reader.ReadLine()) != null)
                 {
+                    lineNumber++;
+
                     // Пропускаем пустые строки
                     if (string.IsNullOrWhiteSpace(line))
                         continue;
@@ -25,50 +29,56 @@ namespace Tyuiu.KuzakinSI.Sprint5.Task5.V29.Lib
                     // Убираем лишние пробелы
                     line = line.Trim();
 
-                    // Пытаемся распарсить число в разных форматах
+                    // ЗАМЕНЯЕМ ЗАПЯТУЮ НА ТОЧКУ ПЕРЕД ПАРСИНГОМ
+                    string normalizedLine = line.Replace(',', '.');
+
+                    // Пытаемся распарсить число
                     double number;
-                    
-                    // Пробуем парсить с точкой (английский формат)
-                    if (double.TryParse(line, NumberStyles.Any, CultureInfo.InvariantCulture, out number))
+                    bool parsed = false;
+
+                    // Пробуем парсить как целое число (если нет точки после замены)
+                    if (!normalizedLine.Contains('.') && int.TryParse(normalizedLine, out int intNumber))
                     {
-                        ProcessNumber(number, ref minTwoDigit, ref found);
+                        number = intNumber;
+                        parsed = true;
                     }
-                    // Пробуем парсить с запятой (русский формат)
-                    else if (double.TryParse(line, NumberStyles.Any, CultureInfo.GetCultureInfo("ru-RU"), out number))
+                    // Пробуем парсить как double
+                    else if (double.TryParse(normalizedLine, NumberStyles.Any, CultureInfo.InvariantCulture, out number))
                     {
-                        ProcessNumber(number, ref minTwoDigit, ref found);
+                        parsed = true;
                     }
-                    // Если оба способа не сработали, пробуем заменить запятую на точку
-                    else if (line.Contains(','))
+
+                    if (parsed)
                     {
-                        string normalizedLine = line.Replace(',', '.');
-                        if (double.TryParse(normalizedLine, NumberStyles.Any, CultureInfo.InvariantCulture, out number))
+                        // Отладочный вывод
+                        Console.WriteLine($"Строка {lineNumber}: '{line}' -> '{normalizedLine}' -> {number} (целое: {IsInteger(number)}, двузначное: {number >= 10 && number <= 99})");
+
+                        // Проверяем, является ли число целым и двузначным
+                        if (IsInteger(number) && number >= 10 && number <= 99)
                         {
-                            ProcessNumber(number, ref minTwoDigit, ref found);
+                            if (number < minTwoDigit)
+                            {
+                                minTwoDigit = number;
+                                found = true;
+                                Console.WriteLine($"Найдено двузначное число: {number}");
+                            }
                         }
+                    }
+                    else
+                    {
+                        Console.WriteLine($"Строка {lineNumber}: '{line}' -> '{normalizedLine}' -> НЕ ПАРСИТСЯ");
                     }
                 }
             }
 
             if (!found)
             {
+                Console.WriteLine("Двузначных целых чисел не найдено");
                 return 0;
             }
 
+            Console.WriteLine($"Минимальное двузначное число: {minTwoDigit}");
             return Math.Round(minTwoDigit, 3);
-        }
-
-        private void ProcessNumber(double number, ref double minTwoDigit, ref bool found)
-        {
-            // Проверяем, является ли число целым и двузначным
-            if (IsInteger(number) && number >= 10 && number <= 99)
-            {
-                if (number < minTwoDigit)
-                {
-                    minTwoDigit = number;
-                    found = true;
-                }
-            }
         }
 
         private bool IsInteger(double number)
