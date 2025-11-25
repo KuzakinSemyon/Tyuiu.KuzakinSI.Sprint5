@@ -20,31 +20,35 @@ namespace Tyuiu.KuzakinSI.Sprint5.Task5.V29
             Console.WriteLine("* Выполнил: Кузякин Семён Игоревич | ПИНб-25-1                            *");
             Console.WriteLine("***************************************************************************");
             Console.WriteLine("* УСЛОВИЕ:                                                                *");
-            Console.WriteLine("* Дан файл C:\\DataSprint5\\InPutDataFileTask5V29.txt в котором есть      *");
-            Console.WriteLine("* набор значений. Найти минимальное целое число в файле, которое является*");
-            Console.WriteLine("* двузначным числом. Полученный результат вывести на консоль.            *");
-            Console.WriteLine("* У вещественных значений округлить до трёх знаков после запятой.        *");
-            Console.WriteLine("*                                                                         *");
+            Console.WriteLine("* Дан файл в котором есть набор значений. Найти минимальное целое число  *");
+            Console.WriteLine("* в файле, которое является двузначным числом.                           *");
             Console.WriteLine("***************************************************************************");
             Console.WriteLine("* ИСХОДНЫЕ ДАННЫЕ:                                                        *");
             Console.WriteLine("***************************************************************************");
 
-            string path = @"C:\DataSprint5\InPutDataFileTask5V29.txt";
+            string path = "/app/data/AssesmentData/C#/Sprint5Task5/InPutDataFileTask5V29.txt";
             
             Console.WriteLine($"Путь к файлу: {path}");
             Console.WriteLine("Содержимое файла:");
 
             if (File.Exists(path))
             {
-                string[] lines = File.ReadAllLines(path);
-                foreach (string line in lines)
+                try
                 {
-                    Console.WriteLine(line);
+                    string[] lines = File.ReadAllLines(path);
+                    for (int i = 0; i < lines.Length; i++)
+                    {
+                        Console.WriteLine($"[{i}] {lines[i]} (длина: {lines[i].Length})");
+                    }
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine($"Ошибка при чтении файла: {ex.Message}");
                 }
             }
             else
             {
-                Console.WriteLine("Файл не существует! Убедитесь, что файл находится по указанному пути.");
+                Console.WriteLine("Файл не существует!");
                 Console.ReadLine();
                 return;
             }
@@ -56,7 +60,15 @@ namespace Tyuiu.KuzakinSI.Sprint5.Task5.V29
             try
             {
                 double result = ds.LoadFromDataFile(path);
-                Console.WriteLine($"Минимальное двузначное целое число: {result}");
+                
+                if (result == 0)
+                {
+                    Console.WriteLine("В файле не найдено двузначных целых чисел");
+                }
+                else
+                {
+                    Console.WriteLine($"Минимальное двузначное целое число: {result}");
+                }
             }
             catch (Exception ex)
             {

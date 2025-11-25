@@ -27,7 +27,7 @@ namespace Tyuiu.KuzakinSI.Sprint5.Task3.V19.Lib
             // Запись результата в бинарный файл
             using (BinaryWriter writer = new BinaryWriter(File.Open(path, FileMode.Create)))
             {
-                writer.Write(result.ToString());
+                writer.Write(result);
             }
 
             return path;

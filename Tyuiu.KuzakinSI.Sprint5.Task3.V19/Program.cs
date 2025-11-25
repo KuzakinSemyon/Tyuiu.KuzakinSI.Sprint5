@@ -39,14 +39,19 @@ namespace Tyuiu.KuzakinSI.Sprint5.Task3.V19
             string path = ds.SaveToFileTextData(x);
 
             // Чтение результата из бинарного файла для вывода на консоль
-            string result;
+            double result;
             using (BinaryReader reader = new BinaryReader(File.Open(path, FileMode.Open)))
             {
-                result = reader.ReadString();
+                result = reader.ReadDouble();
             }
             
-            Console.WriteLine($"Результат: {result}");
+            Console.WriteLine($"Результат: {result:F3}");
             Console.WriteLine($"Файл сохранен: {path}");
+
+            // Дополнительно выводим base64 для проверки
+            byte[] fileBytes = File.ReadAllBytes(path);
+            string base64Content = Convert.ToBase64String(fileBytes);
+            Console.WriteLine($"Base64 содержимого файла: {base64Content}");
 
             Console.ReadLine();
         }

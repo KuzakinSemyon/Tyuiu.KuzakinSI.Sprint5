@@ -1,6 +1,7 @@
 using System;
 using System.IO;
 using System.Globalization;
+using System.Linq;
 using tyuiu.cources.programming.interfaces.Sprint5;
 
 namespace Tyuiu.KuzakinSI.Sprint5.Task5.V29.Lib
@@ -21,19 +22,29 @@ namespace Tyuiu.KuzakinSI.Sprint5.Task5.V29.Lib
                     if (string.IsNullOrWhiteSpace(line))
                         continue;
 
-                    // Заменяем точку на запятую для корректного парсинга
-                    string normalizedLine = line.Replace('.', ',');
+                    // Убираем лишние пробелы
+                    line = line.Trim();
+
+                    // Пытаемся распарсить число в разных форматах
+                    double number;
                     
-                    if (double.TryParse(normalizedLine, NumberStyles.Any, CultureInfo.GetCultureInfo("ru-RU"), out double number))
+                    // Пробуем парсить с точкой (английский формат)
+                    if (double.TryParse(line, NumberStyles.Any, CultureInfo.InvariantCulture, out number))
                     {
-                        // Проверяем, что число целое и двузначное
-                        if (number == Math.Floor(number) && number >= 10 && number <= 99)
+                        ProcessNumber(number, ref minTwoDigit, ref found);
+                    }
+                    // Пробуем парсить с запятой (русский формат)
+                    else if (double.TryParse(line, NumberStyles.Any, CultureInfo.GetCultureInfo("ru-RU"), out number))
+                    {
+                        ProcessNumber(number, ref minTwoDigit, ref found);
+                    }
+                    // Если оба способа не сработали, пробуем заменить запятую на точку
+                    else if (line.Contains(','))
+                    {
+                        string normalizedLine = line.Replace(',', '.');
+                        if (double.TryParse(normalizedLine, NumberStyles.Any, CultureInfo.InvariantCulture, out number))
                         {
-                            if (number < minTwoDigit)
-                            {
-                                minTwoDigit = number;
-                                found = true;
-                            }
+                            ProcessNumber(number, ref minTwoDigit, ref found);
                         }
                     }
                 }
@@ -41,10 +52,28 @@ namespace Tyuiu.KuzakinSI.Sprint5.Task5.V29.Lib
 
             if (!found)
             {
-                throw new Exception("В файле не найдено двузначных целых чисел");
+                return 0;
             }
 
             return Math.Round(minTwoDigit, 3);
+        }
+
+        private void ProcessNumber(double number, ref double minTwoDigit, ref bool found)
+        {
+            // Проверяем, является ли число целым и двузначным
+            if (IsInteger(number) && number >= 10 && number <= 99)
+            {
+                if (number < minTwoDigit)
+                {
+                    minTwoDigit = number;
+                    found = true;
+                }
+            }
+        }
+
+        private bool IsInteger(double number)
+        {
+            return Math.Abs(number - Math.Round(number)) < 0.000001;
         }
     }
 }
