@@ -1,54 +1,26 @@
-using System;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System.IO;
 using Tyuiu.KuzakinSI.Sprint5.Task5.V29.Lib;
 
-namespace Tyuiu.KuzakinSI.Sprint5.Task5.V29
+namespace Tyuiu.KuzakinSI.Sprint5.Task5.V29.Test
 {
-    class Program
+    [TestClass]
+    public class DataServiceTest
     {
-        static void Main(string[] args)
+        [TestMethod]
+        public void ValidLoadFromDataFile()
         {
             DataService ds = new DataService();
 
-            Console.Title = "Спринт #5 | Выполнил: Кузякин Семён Игоревич | ПИНб-25-1";
-
-            Console.WriteLine("***************************************************************************");
-            Console.WriteLine("* Спринт #5                                                               *");
-            Console.WriteLine("* Тема: Чтение набора данных из текстового файла                         *");
-            Console.WriteLine("* Задание #5                                                              *");
-            Console.WriteLine("* Вариант #29                                                             *");
-            Console.WriteLine("* Выполнил: Кузякин Семён Игоревич | ПИНб-25-1                            *");
-            Console.WriteLine("***************************************************************************");
-
-            string path = "/app/data/AssesmentData/C#/Sprint5Task5/InPutDataFileTask5V29.txt";
+            string path = Path.Combine(Path.GetTempPath(), "TestFile.txt");
             
-            Console.WriteLine($"Путь к файлу: {path}");
-
-            if (!File.Exists(path))
-            {
-                Console.WriteLine("Файл не существует!");
-                return;
-            }
-
-            string content = File.ReadAllText(path);
-            Console.WriteLine($"Содержимое файла: {content}");
-
-            Console.WriteLine("***************************************************************************");
-            Console.WriteLine("* РЕЗУЛЬТАТ:                                                              *");
-            Console.WriteLine("***************************************************************************");
+            File.WriteAllText(path, "5 9 18 -0.48 18.17 12 11 -4.71 -5.7 18 -3.92 -4 -1.03 9 8.08 2.78 8.76 -9.75 -3 -4");
 
             double result = ds.LoadFromDataFile(path);
-            
-            if (result == 0)
-            {
-                Console.WriteLine("В файле не найдено двузначных целых чисел");
-            }
-            else
-            {
-                Console.WriteLine($"Минимальное двузначное целое число: {result}");
-            }
+            double wait = 11; // Минимальное двузначное целое: 18, 12, 11
 
-            Console.ReadLine();
+            Assert.AreEqual(wait, result);
+            File.Delete(path);
         }
     }
 }
