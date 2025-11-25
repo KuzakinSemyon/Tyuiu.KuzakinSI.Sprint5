@@ -1,69 +1,38 @@
-using System;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System.IO;
 using Tyuiu.KuzakinSI.Sprint5.Task5.V29.Lib;
 
-namespace Tyuiu.KuzakinSI.Sprint5.Task5.V29
+namespace Tyuiu.KuzakinSI.Sprint5.Task5.V29.Test
 {
-    class Program
+    [TestClass]
+    public class DataServiceTest
     {
-        static void Main(string[] args)
+        [TestMethod]
+        public void ValidLoadFromDataFile()
         {
             DataService ds = new DataService();
 
-            Console.Title = "Спринт #5 | Выполнил: Кузякин Семён Игоревич | ПИНб-25-1";
-
-            Console.WriteLine("***************************************************************************");
-            Console.WriteLine("* Спринт #5                                                               *");
-            Console.WriteLine("* Тема: Чтение набора данных из текстового файла                         *");
-            Console.WriteLine("* Задание #5                                                              *");
-            Console.WriteLine("* Вариант #29                                                             *");
-            Console.WriteLine("* Выполнил: Кузякин Семён Игоревич | ПИНб-25-1                            *");
-            Console.WriteLine("***************************************************************************");
-            Console.WriteLine("* УСЛОВИЕ:                                                                *");
-            Console.WriteLine("* Дан файл C:\\DataSprint5\\InPutDataFileTask5V29.txt в котором есть      *");
-            Console.WriteLine("* набор значений. Найти минимальное целое число в файле, которое является*");
-            Console.WriteLine("* двузначным числом. Полученный результат вывести на консоль.            *");
-            Console.WriteLine("* У вещественных значений округлить до трёх знаков после запятой.        *");
-            Console.WriteLine("*                                                                         *");
-            Console.WriteLine("***************************************************************************");
-            Console.WriteLine("* ИСХОДНЫЕ ДАННЫЕ:                                                        *");
-            Console.WriteLine("***************************************************************************");
-
-            string path = @"C:\DataSprint5\InPutDataFileTask5V29.txt";
+            // Создаем временный файл с тестовыми данными
+            string path = Path.Combine(Path.GetTempPath(), "TestFileTask5V29.txt");
             
-            Console.WriteLine($"Путь к файлу: {path}");
-            Console.WriteLine("Содержимое файла:");
-
-            if (File.Exists(path))
+            using (StreamWriter writer = new StreamWriter(path))
             {
-                string[] lines = File.ReadAllLines(path);
-                foreach (string line in lines)
-                {
-                    Console.WriteLine(line);
-                }
-            }
-            else
-            {
-                Console.WriteLine("Файл не существует! Убедитесь, что файл находится по указанному пути.");
-                Console.ReadLine();
-                return;
+                writer.WriteLine("15.5");
+                writer.WriteLine("23");
+                writer.WriteLine("45.0");
+                writer.WriteLine("12");
+                writer.WriteLine("8.7");
+                writer.WriteLine("99");
+                writer.WriteLine("3.14");
             }
 
-            Console.WriteLine("***************************************************************************");
-            Console.WriteLine("* РЕЗУЛЬТАТ:                                                              *");
-            Console.WriteLine("***************************************************************************");
+            double result = ds.LoadFromDataFile(path);
+            double wait = 12; // Минимальное двузначное целое число
 
-            try
-            {
-                double result = ds.LoadFromDataFile(path);
-                Console.WriteLine($"Минимальное двузначное целое число: {result}");
-            }
-            catch (Exception ex)
-            {
-                Console.WriteLine($"Ошибка: {ex.Message}");
-            }
+            Assert.AreEqual(wait, result);
 
-            Console.ReadLine();
+            // Удаляем временный файл
+            File.Delete(path);
         }
     }
 }

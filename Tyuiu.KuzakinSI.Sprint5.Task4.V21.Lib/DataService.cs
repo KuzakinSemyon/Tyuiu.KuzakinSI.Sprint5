@@ -1,5 +1,6 @@
 using System;
 using System.IO;
+using System.Globalization;
 using tyuiu.cources.programming.interfaces.Sprint5;
 
 namespace Tyuiu.KuzakinSI.Sprint5.Task4.V21.Lib
@@ -10,7 +11,9 @@ namespace Tyuiu.KuzakinSI.Sprint5.Task4.V21.Lib
         {
             // Чтение значения из файла
             string strValue = File.ReadAllText(path);
-            double x = Convert.ToDouble(strValue);
+            
+            // Используем InvariantCulture для корректного парсинга чисел с точкой
+            double x = double.Parse(strValue, CultureInfo.InvariantCulture);
 
             // Вычисление значения по формуле: y = x^3 * cos(x) + 2x
             double y = Math.Pow(x, 3) * Math.Cos(x) + 2 * x;

@@ -29,12 +29,8 @@ namespace Tyuiu.KuzakinSI.Sprint5.Task4.V21
             Console.WriteLine("* ИСХОДНЫЕ ДАННЫЕ:                                                        *");
             Console.WriteLine("***************************************************************************");
 
-            // Путь к файлу (создаем временный файл для демонстрации)
-            string path = Path.Combine(Path.GetTempPath(), "InPutDataFileTask4V21.txt");
+            string path = "/app/data/AssesmentData/C#/Sprint5Task4/InPutDataFileTask4V21.txt";
             
-            // Создаем тестовый файл с значением
-            File.WriteAllText(path, "2.5");
-
             Console.WriteLine($"Файл: {path}");
             Console.WriteLine($"Содержимое файла: {File.ReadAllText(path)}");
 
@@ -42,8 +38,15 @@ namespace Tyuiu.KuzakinSI.Sprint5.Task4.V21
             Console.WriteLine("* РЕЗУЛЬТАТ:                                                              *");
             Console.WriteLine("***************************************************************************");
 
-            double result = ds.LoadFromDataFile(path);
-            Console.WriteLine($"Результат вычисления: {result}");
+            try
+            {
+                double result = ds.LoadFromDataFile(path);
+                Console.WriteLine($"Результат вычисления: {result}");
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Ошибка: {ex.Message}");
+            }
 
             Console.ReadLine();
         }
