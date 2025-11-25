@@ -44,14 +44,9 @@ namespace Tyuiu.KuzakinSI.Sprint5.Task3.V19
             {
                 result = reader.ReadDouble();
             }
-            
+
             Console.WriteLine($"Результат: {result:F3}");
             Console.WriteLine($"Файл сохранен: {path}");
-
-            // Дополнительно выводим base64 для проверки
-            byte[] fileBytes = File.ReadAllBytes(path);
-            string base64Content = Convert.ToBase64String(fileBytes);
-            Console.WriteLine($"Base64 содержимого файла: {base64Content}");
 
             Console.ReadLine();
         }

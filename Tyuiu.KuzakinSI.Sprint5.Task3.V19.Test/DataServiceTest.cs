@@ -26,6 +26,22 @@ namespace Tyuiu.KuzakinSI.Sprint5.Task3.V19.Test
             // Ожидаемое значение в base64
             string expectedBase64 = "MzMzMzOzGUA=";
 
+            // Отладочная информация
+            double writtenValue;
+            using (BinaryReader reader = new BinaryReader(File.Open(path, FileMode.Open)))
+            {
+                writtenValue = reader.ReadDouble();
+            }
+            
+            Console.WriteLine($"Записанное значение: {writtenValue}");
+            Console.WriteLine($"Base64 записанного: {fileContentBase64}");
+            Console.WriteLine($"Ожидаемый Base64: {expectedBase64}");
+
+            // Декодируем ожидаемое значение
+            byte[] expectedBytes = Convert.FromBase64String(expectedBase64);
+            double expectedValue = BitConverter.ToDouble(expectedBytes, 0);
+            Console.WriteLine($"Ожидаемое значение: {expectedValue}");
+
             Assert.AreEqual(expectedBase64, fileContentBase64);
         }
     }
