@@ -19,9 +19,11 @@ namespace Tyuiu.KuzakinSI.Sprint5.Task1.V6.Test
             // Проверяем существование файла
             Assert.IsTrue(File.Exists(path));
 
-            // Проверяем, что файл не пустой
+            // Проверяем содержимое файла
             string fileContent = File.ReadAllText(path);
-            Assert.IsTrue(fileContent.Length > 0);
+            string expected = "4,67\n0,43\n-8,26\n-9,87\n-3,98\n1\n0,02\n-1,87\n3,74\n16,43\n24,67";
+
+            Assert.AreEqual(expected, fileContent);
         }
     }
 }

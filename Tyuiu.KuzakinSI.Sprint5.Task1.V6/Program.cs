@@ -24,7 +24,7 @@ namespace Tyuiu.KuzakinSI.Sprint5.Task1.V6
             Console.WriteLine("* Произвести табулирование f(x) на диапазоне [-5; 5] с шагом 1.          *");
             Console.WriteLine("* Произвести проверку деления на ноль. При делении на ноль вернуть 0.    *");
             Console.WriteLine("* Результат сохранить в текстовый файл OutPutFileTask1.txt и вывести     *");
-            Console.WriteLine("* на консоль в таблицу. Значения округлить до двух знаков после запятой. *");
+            Console.WriteLine("* на консоль. Значения округлить до двух знаков после запятой.           *");
             Console.WriteLine("*                                                                         *");
             Console.WriteLine("***************************************************************************");
             Console.WriteLine("* ИСХОДНЫЕ ДАННЫЕ:                                                        *");
@@ -45,11 +45,9 @@ namespace Tyuiu.KuzakinSI.Sprint5.Task1.V6
             string path = ds.SaveToFileTextData(startValue, stopValue);
 
             // Вывод содержимого файла на консоль
-            string[] lines = File.ReadAllLines(path);
-            foreach (string line in lines)
-            {
-                Console.WriteLine(line);
-            }
+            string fileContent = File.ReadAllText(path);
+            Console.WriteLine("Значения функции:");
+            Console.WriteLine(fileContent);
 
             Console.WriteLine();
             Console.WriteLine($"Файл сохранен: {path}");

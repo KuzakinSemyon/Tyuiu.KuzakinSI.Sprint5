@@ -12,10 +12,6 @@ namespace Tyuiu.KuzakinSI.Sprint5.Task1.V6.Lib
 
             using (StreamWriter writer = new StreamWriter(path))
             {
-                writer.WriteLine("+----------+-----------+");
-                writer.WriteLine("|    X     |    F(x)   |");
-                writer.WriteLine("+----------+-----------+");
-
                 for (int x = startValue; x <= stopValue; x++)
                 {
                     double denominator = 2;
@@ -32,10 +28,19 @@ namespace Tyuiu.KuzakinSI.Sprint5.Task1.V6.Lib
                         value = Math.Round(value, 2);
                     }
 
-                    writer.WriteLine("|{0,5}     | {1,8}  |", x, value);
+                    // Заменяем точку на запятую для русской локали
+                    string valueStr = value.ToString().Replace('.', ',');
+                    
+                    // Записываем значение, кроме последней строки добавляем \n
+                    if (x < stopValue)
+                    {
+                        writer.WriteLine(valueStr);
+                    }
+                    else
+                    {
+                        writer.Write(valueStr);
+                    }
                 }
-
-                writer.WriteLine("+----------+-----------+");
             }
 
             return path;
