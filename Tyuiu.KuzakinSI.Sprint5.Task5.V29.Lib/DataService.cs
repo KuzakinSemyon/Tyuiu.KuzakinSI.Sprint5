@@ -19,7 +19,7 @@ namespace Tyuiu.KuzakinSI.Sprint5.Task5.V29.Lib
                 {
                     if (string.IsNullOrWhiteSpace(line))
                         continue;
-
+                    Console.WriteLine(line);
                     // Заменяем запятую на точку для парсинга
                     line = line.Replace(',', '.');
 
