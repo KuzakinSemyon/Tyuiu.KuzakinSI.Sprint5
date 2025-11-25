@@ -32,7 +32,6 @@ namespace Tyuiu.KuzakinSI.Sprint5.Task5.V29
 
             Console.WriteLine("Содержимое файла:");
             string[] lines = File.ReadAllLines(path);
-            Console.WriteLine(lines);
             foreach (string line in lines)
             {
                 Console.WriteLine(line);
